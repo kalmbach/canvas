@@ -1,3 +1,20 @@
+function updateList() {
+  itemA = document.getElementById("checkbox");
+  itemB = document.getElementById("signature");
+
+  if (checked) {
+    itemA.className = "notification is-success";
+  } else {
+    itemA.className = "notification is-danger";
+  }
+
+  if (signed) {
+    itemB.className = "notification is-success";
+  } else {
+    itemA.className = "notification is-danger";
+  }
+}
+
 function getMousePos(canvas, evt) {
   var rect = canvas.getBoundingClientRect();
   return {
@@ -5,7 +22,6 @@ function getMousePos(canvas, evt) {
     y: evt.clientY - rect.top
   };
 }
-
 
 function checkPos(pos) {
   if (pos.x >= checkboxPos.x && pos.x <= (checkboxPos.x + 20)) {
@@ -42,11 +58,13 @@ function drawSignature(pos) {
 function draw(pos) {
   context.lineTo(pos.x, pos.y);
   context.stroke();
+  signed = true;
 }
 
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
 var checked = false;
+var signed = false;
 var isDrawing = false;
 var checkboxPos = { x: 90, y: 100 };
 
@@ -70,6 +88,7 @@ canvas.addEventListener("mousedown", function(evt) {
 
 canvas.addEventListener("mouseup", function(evt) {
   isDrawing = false;
+  updateList();
 });
 
 canvas.addEventListener("mousemove", function(evt) {

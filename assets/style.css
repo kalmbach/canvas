@@ -15,3 +15,7 @@ canvas {
   border-width: 1px;
   border-color: grey;
 }
+
+strong {
+  color: #fff;
+}
