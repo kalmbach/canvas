@@ -1,3 +1,13 @@
+function resetCanvas(e) {
+  e.preventDefault();
+  signed = false;
+  checked = false;
+  context.clearRect(0, 0, 400, 400);
+  drawBox();
+  drawText();
+  updateList();
+}
+
 function updateList() {
   itemA = document.getElementById("checkbox");
   itemB = document.getElementById("signature");
@@ -11,7 +21,7 @@ function updateList() {
   if (signed) {
     itemB.className = "notification is-success";
   } else {
-    itemA.className = "notification is-danger";
+    itemB.className = "notification is-danger";
   }
 }
 
@@ -48,6 +58,12 @@ function drawBox() {
   context.stroke();
 }
 
+function drawText() {
+  context.font = "1.1em Courier";
+  context.fillStyle = "#222";
+  context.fillText("Is required to check me", 120, 115);
+}
+
 function drawSignature(pos) {
   context.beginPath();
   context.strokeStyle = "black";
@@ -70,9 +86,7 @@ var checkboxPos = { x: 90, y: 100 };
 
 // Draw the checkbox
 drawBox();
-context.font = "1.1em Courier";
-context.fillStyle = "#222";
-context.fillText("Is required to check me", 120, 115);
+drawText();
 
 canvas.addEventListener("mousedown", function(evt) {
   var mousePos = getMousePos(canvas, evt);
@@ -98,4 +112,5 @@ canvas.addEventListener("mousemove", function(evt) {
   }
 });
 
-
+var resetButton = document.getElementById("resetButton");
+resetButton.addEventListener("click", resetCanvas);
