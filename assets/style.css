@@ -1,0 +1,17 @@
+.hero.is-primary {
+  max-width: 100%;
+}
+
+.nav-left {
+  justify-content: center;
+}
+
+.level-item {
+  margin: 10px;
+}
+
+canvas {
+  border-style: dashed;
+  border-width: 1px;
+  border-color: grey;
+}

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Canvas</title>
+    <link rel="stylesheet" href="assets/bulma.css">
+    <link rel="stylesheet" href="assets/style.css">
+  </head>
+  <body>
+    <div class="container hero is-primary">
+      <nav class="nav">
+        <div class="nav-left">
+          <a class="nav-item is-brand" href="/" style="color: #fff">
+            <strong>Canvas</strong>
+          </a>
+        </div>
+      </nav>
+    </div> 
+    <div class="container hero">
+      <div class="level">
+        <div class="level-item">
+          <canvas id="canvas" width="400" height="400">
+            Your browser does not support canvas.
+          </canvas>
+        </div>
+        <div class="level-item">
+          <div id="items">
+            <div id="checkbox" class="notification is-danger">
+              <strong>1.</strong> Click inside the checkbox
+            </div>
+            <div id="signature" class="notification is-danger">
+              <strong>2.</strong> Draw your signature
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="assets/bundle.js" type="text/javascript"></script>
+  </body>
+</html>
