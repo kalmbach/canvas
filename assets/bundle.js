@@ -73,6 +73,7 @@ function drawText() {
   context.font = "1.1em Courier";
   context.fillStyle = "#222";
   context.fillText("Is required to check me", 120, 115);
+  context.fillText("1000 pixels or more required for signature", 10, 350);
 }
 
 function drawSignature(pos) {
@@ -101,7 +102,6 @@ drawText();
 
 
 var blankCanvas = context.getImageData(0, 0, canvas.height, canvas.width);
-console.log("blankCanvas:", blankCanvas.data.length, "pixels");
 
 canvas.addEventListener("mousedown", function(evt) {
   var mousePos = getMousePos(canvas, evt);
