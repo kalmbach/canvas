@@ -5,6 +5,8 @@ function resetCanvas(e) {
   context.clearRect(0, 0, 400, 400);
   drawBox();
   drawText();
+  signaturePixels = 0;
+  updatePixels();
   updateList();
 }
 
@@ -23,6 +25,15 @@ function updateList() {
   } else {
     itemB.className = "notification is-danger";
   }
+}
+
+function updatePixels() {
+  if (signaturePixels >= 1000) {
+    signed = true;
+  }
+
+  itemC = document.getElementById("pixels");
+  itemC.textContent = signaturePixels + " Pixels";
 }
 
 function getMousePos(canvas, evt) {
@@ -74,7 +85,6 @@ function drawSignature(pos) {
 function draw(pos) {
   context.lineTo(pos.x, pos.y);
   context.stroke();
-  signed = true;
 }
 
 var canvas = document.getElementById('canvas');
@@ -83,10 +93,15 @@ var checked = false;
 var signed = false;
 var isDrawing = false;
 var checkboxPos = { x: 90, y: 100 };
+var signaturePixels = 0;
 
 // Draw the checkbox
 drawBox();
 drawText();
+
+
+var blankCanvas = context.getImageData(0, 0, canvas.height, canvas.width);
+console.log("blankCanvas:", blankCanvas.data.length, "pixels");
 
 canvas.addEventListener("mousedown", function(evt) {
   var mousePos = getMousePos(canvas, evt);
@@ -102,6 +117,20 @@ canvas.addEventListener("mousedown", function(evt) {
 
 canvas.addEventListener("mouseup", function(evt) {
   isDrawing = false;
+  var currentCanvas = context.getImageData(0, 0, canvas.height, canvas.width);
+  var diff = false;
+
+  for(var x=0; x < currentCanvas.data.length; x += 4) {
+    diff = diff || currentCanvas.data[x] !== blankCanvas.data[x];
+    diff = diff || currentCanvas.data[x+1] !== blankCanvas.data[x+1];
+    diff = diff || currentCanvas.data[x+2] !== blankCanvas.data[x+2];
+    diff = diff || currentCanvas.data[x+3] !== blankCanvas.data[x+3];
+
+    if (diff) { signaturePixels++; }
+    diff = false;
+  }
+
+  updatePixels();
   updateList();
 });
 
