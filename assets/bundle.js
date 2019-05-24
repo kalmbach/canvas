@@ -4,6 +4,7 @@ function resetCanvas(e) {
   checked = false;
   context.clearRect(0, 0, 400, 400);
   drawBox();
+  drawSignBox();
   drawText();
   signaturePixels = 0;
   updatePixels();
@@ -55,6 +56,16 @@ function checkPos(pos) {
   return false;
 }
 
+function checkSignPos(pos) {
+  if (pos.x >= signboxPos.x && pos.x <= (signboxPos.x + 260)) {
+    if (pos.y >= signboxPos.y && pos.y <= (signboxPos.y + 80)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 function drawBox() {
   context.beginPath();
   context.rect(checkboxPos.x, checkboxPos.y, 20, 20);
@@ -69,11 +80,27 @@ function drawBox() {
   context.stroke();
 }
 
+function drawSignBox() {
+  context.beginPath();
+  context.setLineDash([5, 10]);
+  context.rect(signboxPos.x, signboxPos.y, 260, 80);
+  if (checked) {
+    context.fillStyle = "#ff3860";
+  } else {
+    context.fillStyle = "white";
+  }
+  context.fill();
+  context.lineWidth = 2;
+  context.strokeStyle = '#ccc';
+  context.stroke();
+  context.setLineDash([0]);
+}
+
 function drawText() {
   context.font = "1.1em Courier";
   context.fillStyle = "#222";
   context.fillText("Is required to check me", 120, 115);
-  context.fillText("1000 pixels or more required for signature", 10, 350);
+  context.fillText("1000 pixels or more required for signature", 30, 350);
 }
 
 function drawSignature(pos) {
@@ -94,12 +121,13 @@ var checked = false;
 var signed = false;
 var isDrawing = false;
 var checkboxPos = { x: 90, y: 100 };
+var signboxPos = { x: 70, y: 150 };
 var signaturePixels = 0;
 
 // Draw the checkbox
 drawBox();
 drawText();
-
+drawSignBox();
 
 var blankCanvas = context.getImageData(0, 0, canvas.height, canvas.width);
 
@@ -109,7 +137,7 @@ canvas.addEventListener("mousedown", function(evt) {
     isDrawing = false;
     drawBox();
   }
-  else {
+  else if (checkSignPos(mousePos)) {
     isDrawing = true;
     drawSignature(mousePos);
   }
@@ -135,9 +163,13 @@ canvas.addEventListener("mouseup", function(evt) {
 });
 
 canvas.addEventListener("mousemove", function(evt) {
+  console.log("mousemove");
+  var mousePos = getMousePos(canvas, evt);
+
   if (isDrawing) {
-    var mousePos = getMousePos(canvas, evt);
-    draw(mousePos);
+    if (checkSignPos(mousePos)) {
+      draw(mousePos);
+    }
   }
 });
 
